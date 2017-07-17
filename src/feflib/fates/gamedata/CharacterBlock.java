@@ -137,7 +137,7 @@ public class CharacterBlock {
                     System.arraycopy(ByteUtils.toByteArray(newValue.shortValue()), 0,
                             raw, start + 104 + i * 2, 2));
         }
-        for(int x = 0; x < 2; x++) {
+        for(int x = 0; x < 3; x++) {
             int i = x;
             personalSkills[x].addListener((observable, oldValue, newValue) ->
                     System.arraycopy(ByteUtils.toByteArray(newValue.shortValue()), 0,
@@ -354,8 +354,8 @@ public class CharacterBlock {
     }
 
     public short[] getSkills() {
-        short[] skills = new short[2];
-        for(int x = 0; x < 2; x++)
+        short[] skills = new short[5];
+        for(int x = 0; x < 5; x++)
             skills[x] = (short) this.skills[x].get();
         return skills;
     }
@@ -365,13 +365,13 @@ public class CharacterBlock {
     }
 
     public void setSkills(short[] skills) {
-        for(int x = 0; x < 2; x++)
+        for(int x = 0; x < 5; x++)
             this.skills[x].setValue(skills[x]);
     }
 
     public short[] getPersonalSkills() {
-        short[] personalSkills = new short[2];
-        for(int x = 0; x < 2; x++)
+        short[] personalSkills = new short[3];
+        for(int x = 0; x < 3; x++)
             personalSkills[x] = (short) this.personalSkills[x].get();
         return personalSkills;
     }
@@ -381,7 +381,7 @@ public class CharacterBlock {
     }
 
     public void setPersonalSkills(short[] personalSkills) {
-        for(int x = 0; x < 2; x++)
+        for(int x = 0; x < 3; x++)
             this.personalSkills[x].setValue(personalSkills[x]);
     }
 }
