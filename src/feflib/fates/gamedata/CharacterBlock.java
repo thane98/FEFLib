@@ -15,6 +15,7 @@ public class CharacterBlock {
     private IntegerProperty levelCap = new SimpleIntegerProperty();
     private IntegerProperty supportRoute = new SimpleIntegerProperty();
     private IntegerProperty parent = new SimpleIntegerProperty();
+    private IntegerProperty supportId = new SimpleIntegerProperty();
 
     private IntegerProperty[] bitflags = new IntegerProperty[8];
     private IntegerProperty[] stats = new IntegerProperty[8];
@@ -28,10 +29,14 @@ public class CharacterBlock {
 
     // These should be considered read-only once assigned.
     private String pid;
+    private String mPid;
     private short id;
     private short replacementId;
+    private int blockStart;
 
     public CharacterBlock(byte[] bytes, int start) {
+        blockStart = start;
+
         // Initialize observable value arrays.
         for(int x = 0; x < 8; x++)
             bitflags[x] = new SimpleIntegerProperty();
@@ -72,25 +77,27 @@ public class CharacterBlock {
             bitflags[x].setValue(raw[start + x]);
         }
         pid = getStringFromPointer(raw, start + 8);
+        mPid = getStringFromPointer(raw, start + 20);
         id = toShort(raw, start + 36);
         supportRoute.setValue(raw[start + 38]);
         replacementId = toShort(raw, start + 40);
         parent.setValue(toShort(raw, start + 42));
         classes[0].setValue(toShort(raw, start + 44));
         classes[1].setValue(toShort(raw, start + 46));
+        supportId.setValue(toShort(raw, start + 48));
         level.setValue(raw[start + 50]);
         internalLevel.setValue(raw[start + 51]);
         for(int x = 0; x < 8; x++) {
-            stats[x].setValue(start + 56 + x);
+            stats[x].setValue(raw[start + 56 + x]);
         }
         for(int x = 0; x < 8; x++) {
-            growths[x].setValue(start + 64 + x);
+            growths[x].setValue(raw[start + 64 + x]);
         }
         for(int x = 0; x < 8; x++) {
-            modifiers[x].setValue(start + 72 + x);
+            modifiers[x].setValue(raw[start + 72 + x]);
         }
         for(int x = 0; x < 8; x++) {
-            weaponRanks[x].setValue(start + 96 + x);
+            weaponRanks[x].setValue(raw[start + 96 + x]);
         }
         for(int x = 0; x < 5; x++) {
             skills[x].setValue(toShort(raw, start + 104 + x * 2));
@@ -111,6 +118,9 @@ public class CharacterBlock {
         parent.addListener((observable, oldValue, newValue) ->
                 System.arraycopy(ByteUtils.toByteArray(newValue.shortValue()), 0,
                         raw, start + 42, 2));
+        supportId.addListener((observable, oldValue, newValue) ->
+                System.arraycopy(ByteUtils.toByteArray(newValue.shortValue()), 0,
+                        raw, start + 48, 2));
         for(int x = 0; x < 8; x++) {
             int i = x;
             bitflags[x].addListener((observable, oldValue, newValue) -> raw[start + i] = newValue.byteValue());
@@ -383,5 +393,33 @@ public class CharacterBlock {
     public void setPersonalSkills(short[] personalSkills) {
         for(int x = 0; x < 3; x++)
             this.personalSkills[x].setValue(personalSkills[x]);
+    }
+
+    public int getSupportId() {
+        return supportId.get();
+    }
+
+    public IntegerProperty supportIdProperty() {
+        return supportId;
+    }
+
+    public void setSupportId(int supportId) {
+        this.supportId.set(supportId);
+    }
+
+    public String getMPid() {
+        return mPid;
+    }
+
+    public void setMPid(String mPid) {
+        this.mPid = mPid;
+    }
+
+    public int getBlockStart() {
+        return blockStart;
+    }
+
+    public void setBlockStart(int blockStart) {
+        this.blockStart = blockStart;
     }
 }

@@ -1,9 +1,12 @@
 package feflib.utils;
 
-import javafx.util.Pair;
-
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Contains utility methods utilized by most bin files.
@@ -23,6 +26,13 @@ public class ByteUtils {
         value |= (encodedValue[index + 1] & 0xFF) << (Byte.SIZE);
         value |= (encodedValue[index] & 0xFF);
         return value;
+    }
+
+    public static int toInt(List<Byte> bytes, int start) {
+        byte[] byteArray = new byte[4];
+        for(int x = 0; x < 4; x++)
+            byteArray[x] = bytes.get(start + x);
+        return toInt(byteArray, 0);
     }
 
     public static byte[] toByteArray(short value) {
@@ -46,6 +56,17 @@ public class ByteUtils {
         encodedValue[1] = (byte) (value >> Byte.SIZE);
         encodedValue[0] = (byte) value;
         return encodedValue;
+    }
+
+    public static List<Byte> toByteList(int i) {
+        final ByteBuffer bb = ByteBuffer.allocate(Integer.SIZE / Byte.SIZE);
+        bb.order(ByteOrder.LITTLE_ENDIAN);
+        bb.putInt(i);
+        byte[] bytes = bb.array();
+        List<Byte> out = new ArrayList<>();
+        for(byte b : bytes)
+            out.add(b);
+        return out;
     }
 
     public static String getString(byte[] source, int index) throws UnsupportedEncodingException {

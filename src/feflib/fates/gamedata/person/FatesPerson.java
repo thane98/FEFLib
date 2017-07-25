@@ -1,4 +1,4 @@
-package feflib.fates.person;
+package feflib.fates.gamedata.person;
 
 import static feflib.utils.ByteUtils.*;
 

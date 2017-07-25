@@ -1,4 +1,4 @@
-package feflib.fates.join;
+package feflib.fates.castle.join;
 
 import javafx.util.Pair;
 

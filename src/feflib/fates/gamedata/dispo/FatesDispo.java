@@ -1,4 +1,4 @@
-package feflib.fates.dispo;
+package feflib.fates.gamedata.dispo;
 
 import static feflib.utils.ByteUtils.*;
 import javafx.util.Pair;
@@ -181,7 +181,7 @@ public class FatesDispo {
                                 raw, start + 60 + z * 4, 4);
                     }
                 }
-                System.arraycopy(toByteArray(b.getSkillFlag()), 0, raw, start + 80, 4);
+                System.arraycopy(b.getSkillFlag(), 0, raw, start + 80, 4);
                 if(!b.getAc().equals("")) {
                     System.arraycopy(toByteArray(labelMap.get(b.getAc()) + labelStart - 0x20), 0, 
                             raw, start + 84, 4);

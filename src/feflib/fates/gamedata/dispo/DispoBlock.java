@@ -1,4 +1,4 @@
-package feflib.fates.dispo;
+package feflib.fates.gamedata.dispo;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -19,8 +19,7 @@ public class DispoBlock {
     private byte team = 0;
     private byte level = 0;
 
-    private int skillFlag = 0;
-
+    private byte[] skillFlag = new byte[4];
     private byte[] unknownOne = new byte[4];
     private byte[] secondCoord = new byte[2];
     private byte[] firstCoord = new byte[2];
@@ -64,7 +63,8 @@ public class DispoBlock {
         this.aiPositionFour = src.getAiPositionFour();
         this.team = src.getTeam();
         this.level = src.getLevel();
-        this.skillFlag = src.getSkillFlag();
+        this.skillFlag = new byte[4];
+        System.arraycopy(src.getSkillFlag(), 0, skillFlag, 0, 4);
         this.unknownOne = src.getUnknownOne();
         this.secondCoord = src.getSecondCoord();
         this.firstCoord = src.getFirstCoord();
@@ -98,7 +98,7 @@ public class DispoBlock {
                 skills[x] = getStringFromPointer(raw, start + 60 + x * 4);
             }
         }
-        skillFlag = toInt(raw, start + 80);
+        skillFlag = Arrays.copyOfRange(raw, start + 80, start + 84);
         if (toInt(raw, start + 84) != 0)
             ac = getStringFromPointer(raw, start + 84);
         if (toInt(raw, start + 88) != 0)
@@ -172,14 +172,6 @@ public class DispoBlock {
 
     public void setLevel(byte level) {
         this.level = level;
-    }
-
-    public int getSkillFlag() {
-        return skillFlag;
-    }
-
-    public void setSkillFlag(int skillFlag) {
-        this.skillFlag = skillFlag;
     }
 
     public byte[] getUnknownOne() {
@@ -280,5 +272,13 @@ public class DispoBlock {
 
     public byte[] getUnknownThree() {
         return unknownThree;
+    }
+
+    public byte[] getSkillFlag() {
+        return skillFlag;
+    }
+
+    public void setSkillFlag(byte[] skillFlag) {
+        this.skillFlag = skillFlag;
     }
 }

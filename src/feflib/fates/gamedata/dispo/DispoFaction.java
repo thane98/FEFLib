@@ -1,4 +1,4 @@
-package feflib.fates.dispo;
+package feflib.fates.gamedata.dispo;
 
 import feflib.utils.ByteUtils;
 
