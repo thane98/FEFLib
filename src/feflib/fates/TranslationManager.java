@@ -63,8 +63,8 @@ public class TranslationManager {
             }
             else if(split[0].startsWith("MTID") && !split[0].contains("_H_")) {
                 String japanese = split[0].replace("MTID_", "");
-                skills.put("TID_" + english, "TID_" + japanese);
-                skills.put("MTID_" + english, split[0]);
+                tiles.put("TID_" + english, "TID_" + japanese);
+                tiles.put("MTID_" + english, split[0]);
             }
         }
     }
@@ -78,6 +78,8 @@ public class TranslationManager {
             return classes.get(english);
         else if(skills.containsKey(english))
             return skills.get(english);
+        else if(tiles.containsKey(english))
+            return tiles.get(english);
         return null;
     }
 
