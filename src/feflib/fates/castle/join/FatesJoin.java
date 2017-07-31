@@ -105,7 +105,8 @@ public class FatesJoin {
                         raw, start + 12, 4);
             }
             System.arraycopy(j.getUnknownOne(), 0, raw, start + 16, 0xC);
-            System.arraycopy(toByteArray(j.getUnknownTwo()), 0, raw, start + 28, 4);
+            if(x != blocks.size() - 1)
+                System.arraycopy(toByteArray(x + 1), 0, raw, start + 28, 4);
         }
 
         List<Integer> sorted = sortPointers(raw, pointerOne);
@@ -191,20 +192,6 @@ public class FatesJoin {
                 return true;
         }
         return false;
-    }
-
-    public void addBlock(String pid, String birthright, String conquest, String revelation) {
-        JoinBlock block = new JoinBlock();
-        block.setCharacter(pid);
-        block.setBirthrightJoin(birthright);
-        block.setConquestJoin(conquest);
-        block.setRevelationJoin(revelation);
-        byte[] temp = new byte[0xC];
-        for (int x = 0; x < temp.length; x++)
-            temp[x] = -1;
-        block.setUnknownOne(temp);
-        block.setUnknownTwo(1);
-        blocks.add(block);
     }
 
     /**

@@ -7,10 +7,7 @@ import feflib.utils.ByteUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class SoundBin {
     private List<VoiceGroup> entries = new ArrayList<>();
@@ -89,23 +86,17 @@ public class SoundBin {
             else if(name.contains("_B_SUPPORT_"))
                 groups.get("B_SUPPORT").add(name);
             else if(name.contains("_CURED_"))
-                groups.get("B_CURED").add(name);
+                groups.get("CURED").add(name);
             else if(name.contains("_CUT_IN_"))
                 groups.get("CUT_IN").add(name);
             else if(name.contains("_DAMAGE_")) {
-                if(Math.random() < 0.5)
+                if (groups.get("DAMAGE_L").size() < 3)
                     groups.get("DAMAGE_L").add(name);
                 else
                     groups.get("DAMAGE_H").add(name);
             }
         }
-
-        int decrement = 0;
         for(String s : groups.keySet()) {
-            if(groups.get(s).size() == 0) {
-                decrement++;
-                continue;
-            }
             createVoiceGroup("VOICE_" + mainName + "_" + s, groups.get(s));
         }
         injectableFile.putInt(countStart - 0x20, entries.size());
@@ -155,8 +146,8 @@ public class SoundBin {
         int address = getStartAddress(index);
         byte[] raw = { 0, 0, 0, 0, 1, 0, 0, 0 };
         InjectionData data = new InjectionData(raw);
-        data.setLabels(Arrays.asList(name));
-        data.setPointers(Arrays.asList(0));
+        data.setLabels(Collections.singletonList(name));
+        data.setPointers(Collections.singletonList(0));
         data.setPointerTwo(false);
 
         injectableFile.inject(data, address - 0x20 + group.getSize());

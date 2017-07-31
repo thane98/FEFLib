@@ -12,7 +12,6 @@ public class JoinBlock {
     private String conquestJoin = "";
     private String revelationJoin = "";
     private byte[] unknownOne;
-    private int unknownTwo;
 
     public JoinBlock(byte[] raw, int start) {
         try {
@@ -32,7 +31,6 @@ public class JoinBlock {
         this.conquestJoin = j.getConquestJoin();
         this.revelationJoin = j.getRevelationJoin();
         this.unknownOne = j.getUnknownOne();
-        this.unknownTwo = j.getUnknownTwo();
     }
 
 
@@ -45,7 +43,6 @@ public class JoinBlock {
         if (toInt(raw, start + 12) != 0)
             revelationJoin = getStringFromPointer(raw, start + 12);
         unknownOne = Arrays.copyOfRange(raw, start + 16, start + 28);
-        unknownTwo = toInt(raw, start + 28);
     }
 
     public String getCharacter() {
@@ -86,13 +83,5 @@ public class JoinBlock {
 
     public void setUnknownOne(byte[] unknownOne) {
         this.unknownOne = unknownOne;
-    }
-
-    public int getUnknownTwo() {
-        return unknownTwo;
-    }
-
-    public void setUnknownTwo(int unknownTwo) {
-        this.unknownTwo = unknownTwo;
     }
 }

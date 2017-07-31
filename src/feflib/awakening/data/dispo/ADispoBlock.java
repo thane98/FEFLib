@@ -41,6 +41,29 @@ public class ADispoBlock {
         this.pid = pid;
     }
 
+    public ADispoBlock(ADispoBlock src) {
+        this.pid = src.getPid();
+        this.ac = src.getAc();
+        this.acParam = src.getAcParam();
+        this.mi = src.getMi();
+        this.miParam = src.getMiParam();
+        this.at = src.getAt();
+        this.atParam = src.getAtParam();
+        this.mv = src.getMv();
+        this.mvParam = src.getMvParam();
+        this.unknown = Arrays.copyOf(src.getUnknown(), 4);
+        this.unknownOne = Arrays.copyOf(src.getUnknownOne(), 0xC);
+        this.unknownTwo = Arrays.copyOf(src.getUnknown(), 2);
+        this.coordOne = Arrays.copyOf(src.getCoordOne(), 2);
+        this.coordTwo = Arrays.copyOf(src.getCoordTwo(), 2);
+        this.unknownThree = Arrays.copyOf(src.getUnknownThree(), 2);
+        System.arraycopy(src.getItems(), 0, items, 0, 5);
+        for(int x = 0; x < 5; x++) {
+            System.arraycopy(src.getItemBitflags()[x], 0, itemBitflags[x], 0, 4);
+        }
+        this.unknownFour = Arrays.copyOf(unknownFour, 0x10);
+    }
+
     private void read(byte[] raw, int start) throws IOException {
         pid = getStringFromPointer(raw, start);
         unknownOne = Arrays.copyOfRange(raw, start + 4, start + 16);

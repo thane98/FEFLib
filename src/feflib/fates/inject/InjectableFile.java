@@ -258,6 +258,27 @@ public class InjectableFile {
         return ptrTwo;
     }
 
+    /**
+     * Adds the given label to the file and repoints the
+     * pointer at the given address to that label.
+     *
+     * @param label The label the pointer should go to.
+     * @param address The address of hte pointer inside the data region.
+     */
+    public void repoint(String label, int address) {
+        try {
+            int ptr = data.size() + pointerOne.size() + pointerTwo.size() + labels.size();
+            labels.addAll(ByteUtils.toByteList(label.getBytes("shift-jis")));
+            labels.add((byte) 0);
+            byte[] ptrBytes = ByteUtils.toByteArray(ptr);
+            for(int x = 0; x < ptrBytes.length; x++) {
+                data.set(address + x, ptrBytes[x]);
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void putInt(int address, int value) {
         byte[] values = ByteUtils.toByteArray(value);
         for(int x = 0; x < 4; x++) {
